@@ -1,4 +1,4 @@
-#Create a list
+#Create a list ---> This will be scraped
 l = ["second yellow card","Gervinho goal 76'","Red card", "Mbappe goal 5'"]
 
 #Replace ' from the minute, to make it an int
