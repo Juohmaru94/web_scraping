@@ -1,1 +1,19 @@
+#Create a list
+l = ["second yellow card","Gervinho goal 76'","Red card", "Mbappe goal 5'"]
 
+#Replace ' from the minute, to make it an int
+new_list = [element.replace("'", "") for element in l]
+print (new_list)
+
+#Keep only the scorers and the minute
+scorers = [x for x in new_list if 'card' not in x]
+print (scorers)
+
+#Function that keeps only numbers
+def convert(lst):
+    new_scorers = ([i for item in scorers for i in item.split()])
+    mynewlist = [s for s in new_scorers if s.isdigit()]
+    return mynewlist
+
+#print finaly minutes of goals scored 
+print(convert(scorers))
