@@ -17,3 +17,15 @@ def convert(lst):
 
 #print finaly minutes of goals scored 
 print(convert(scorers))
+
+
+#import counter
+from collections import Counter
+l = ['1','2','3','3','1','2','3','3','2','3','2','3','1','1','1','1','2','3','2','2']
+
+#Dictionary created to see no. of items for each minute
+d = Counter(l)
+#sort from 1min to 90min
+new_dict = dict(sorted(d.items()))
+
+print (new_dict)
