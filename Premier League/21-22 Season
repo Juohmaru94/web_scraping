@@ -6,7 +6,6 @@ import requests
 first_game_num = 66342
 last_game_num = 66721
 
-#game_number = 66666
 x = 66705
 y = 66708
 final_list = []
