@@ -1,4 +1,5 @@
-#import counter
+#import counter,bs4,requests
+
 from collections import Counter
 from bs4 import BeautifulSoup
 import requests
