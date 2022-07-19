@@ -1,31 +1,125 @@
-#Create a list ---> This will be scraped
-l = ["second yellow card","Gervinho goal 76'","Red card", "Mbappe goal 5'"]
-
-#Replace ' from the minute, to make it an int
-new_list = [element.replace("'", "") for element in l]
-print (new_list)
-
-#Keep only the scorers and the minute
-scorers = [x for x in new_list if 'card' not in x]
-print (scorers)
-
-#Function that keeps only numbers
-def convert(lst):
-    new_scorers = ([i for item in scorers for i in item.split()])
-    mynewlist = [s for s in new_scorers if s.isdigit()]
-    return mynewlist
-
-#print finaly minutes of goals scored 
-print(convert(scorers))
-
-
 #import counter
 from collections import Counter
-l = ['1','2','3','3','1','2','3','3','2','3','2','3','1','1','1','1','2','3','2','2']
+from bs4 import BeautifulSoup
+import requests
 
-#Dictionary created to see no. of items for each minute
-d = Counter(l)
-#sort from 1min to 90min
-new_dict = dict(sorted(d.items()))
+first_game_num = 66342
+last_game_num = 66721
 
-print (new_dict)
+#game_number = 66666
+x = 66705
+y = 66708
+final_list = []
+
+#Combine the two lists/This is for the end, but has to be place here
+def combine():
+    combined_list = home_minutes + away_minutes
+    return combined_list
+
+
+for game_number in range(x,y):
+    
+    url = f'https://www.premierleague.com/match/{game_number}'
+    page = requests.get(url).text
+    soup = BeautifulSoup(page, 'lxml')
+    
+    #This is for extra info about the game if necessary
+    '''
+    home_team = soup.find('div', class_='team home').find('a', class_='teamName').find('span', class_='long').text
+    away_team = soup.find('div', class_='team away').find('a', class_='teamName').find('span', class_='long').text
+    referee = soup.find('div', class_='referee').text.strip()
+    attendance = soup.find('div', class_='attendance hide-m').text.replace('Att:','')
+    matchweek = soup.find('div', class_='current').find('div', class_='long').text 
+    home_scorers = soup.find('div', class_='matchEvents matchEventsContainer').find_all('div', class_='home')
+    away_scorers = soup.find('div', class_='matchEvents matchEventsContainer').find_all('div', class_='away')
+    match_score = soup.find('div', class_= 'score fullTime').text
+    
+    
+    print(f'{matchweek}: {home_team} vs {away_team}: {match_score}')
+    print(f'Referee: {referee}')
+    print(f'Attendance:{attendance}\n')
+    '''
+    home_scorers = soup.find('div', class_='matchEvents matchEventsContainer').find_all('div', class_='home')
+    away_scorers = soup.find('div', class_='matchEvents matchEventsContainer').find_all('div', class_='away')
+    #Obtain a splited list of names and minutes of goals/cards
+    def home_stats():
+        for j in home_scorers:
+            return (j.text.split())
+    
+    
+    def remove_home_cards(home_card):
+        home2 = [i for i in range(len(home_stats())) if home_stats()[i] =='Red']
+        j=1
+        for x in home2:
+            home_card.pop(x-j)
+            j+=1
+        return home_card
+    
+    
+    def away_stats():
+        for i in away_scorers:
+            return(i.text.split())
+        
+    def remove_away_cards(away_card):
+        away2 = [i for i in range(len(away_stats())) if away_stats()[i] =='Red']
+        j=1
+        for x in away2:
+            away_card.pop(x-j)
+            j+=1
+        return away_card
+        
+          
+    #Replace ' from the minute, to make it an int for home and away
+    #And check for cards
+    def check_cards_home():
+        new_list_home = [element.replace("'", "") for element in remove_home_cards(home_stats())]
+        return new_list_home
+        
+    
+    def check_cards_away():
+        new_list_away = [element.replace("'", "") for element in remove_away_cards(away_stats())]
+        return new_list_away
+    
+    #Replace the (,) because it collided when the same person scored twice or more
+    def check_comas_home():    
+        home_comas = [x.replace(",","") for x in check_cards_home()]
+        return home_comas
+    
+    
+    def check_comas_away():    
+        away_comas = [x.replace(",","") for x in check_cards_away()]
+        return away_comas
+    
+    
+    #Function that keeps only numbers
+    def convert_home(home):
+        new_scorers = ([i for item in home for i in item.split()])
+        home_list = [s for s in new_scorers if s.isdigit()]
+        return home_list
+    
+    
+    def convert_away(away):
+        new_scorers = ([i for item in away for i in item.split()])
+        away_list = [s for s in new_scorers if s.isdigit()]
+        return away_list
+    
+    #Lists of minutes of goals scored home and away
+    home_minutes = (convert_home(check_comas_home()))
+    away_minutes = (convert_away(check_comas_away()))
+    
+    final_list.extend(combine())
+    
+#Number of all goals scored
+all_goals = len(final_list)
+
+    
+#Finally, at he very very end Dictionary created to see no. of items for each minute
+def final_results():
+    d = Counter(final_list)
+    #sort from 1min to 90min
+    final_dict = dict(sorted(d.items()))
+    return final_dict
+    
+
+print (final_results())
+
