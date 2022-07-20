@@ -5,8 +5,9 @@ import requests
 import pandas as pd
 
 #X= first game Y= last game
+#66342 - 66722 
 x = 66342
-y = 66345
+y = 66722
 final_list = []
 
 #Combine the two lists/This is for the end, but has to be place here
@@ -21,7 +22,7 @@ for game_number in range(x,y):
     page = requests.get(url).text
     soup = BeautifulSoup(page, 'lxml')
     
-    #This is for extra info about the game if necessary
+    #This is for extra info about each game if necessary
     '''
     home_team = soup.find('div', class_='team home').find('a', class_='teamName').find('span', class_='long').text
     away_team = soup.find('div', class_='team away').find('a', class_='teamName').find('span', class_='long').text
@@ -46,10 +47,11 @@ for game_number in range(x,y):
     
     
     def remove_home_cards(home_card):
-        home2 = [i for i in range(len(home_stats())) if home_stats()[i] =='Red']
+        home2 = [i for i in range(len(home_stats())) if home_stats()[i] =='Red' or home_stats()[i] =='Second']
         j=1
         for x in home2:
             home_card.pop(x-j)
+            home_card.pop(x-(j+1))
             j+=1
         return home_card
     
@@ -58,15 +60,17 @@ for game_number in range(x,y):
         for i in away_scorers:
             return(i.text.split())
         
+    
     def remove_away_cards(away_card):
-        away2 = [i for i in range(len(away_stats())) if away_stats()[i] =='Red']
+        away2 = [i for i in range(len(away_stats())) if away_stats()[i] =='Red' or away_stats()[i] =='Second']
         j=1
         for x in away2:
             away_card.pop(x-j)
+            away_card.pop(x-(j+1))
             j+=1
         return away_card
-        
-          
+    
+           
     #Replace ' from the minute, to make it an int for home and away
     #And check for cards
     def check_cards_home():
@@ -106,11 +110,8 @@ for game_number in range(x,y):
     away_minutes = (convert_away(check_comas_away()))
     
     final_list.extend(combine())
-    
-#Number of all goals scored
-all_goals = len(final_list)
 
-    
+ 
 #Finally, at the very very end Dictionary created to see no. of goals for each minute
 def final_results():
     d = Counter(final_list)
@@ -119,12 +120,14 @@ def final_results():
     return final_dict
     
 
-
 #Write to txt file
 dict_final = final_results()
 
 #DataFrame
 x = pd.DataFrame(dict_final.items(), columns=['Minutes', 'No. of Goals'])
+print(x)
+Total = x['No. of Goals'].sum()
+print (f'Total goals: {Total}')
 
 #Export to CSV
 x.to_csv('PremierLeague_21-22.csv', index=False)
