@@ -6,7 +6,7 @@ import pandas as pd
 
 #X= first game Y= last game
 x = 66342
-y = 66346
+y = 66723
 final_list = []
 
 #Combine the two lists/This is for the end, but has to be place here
