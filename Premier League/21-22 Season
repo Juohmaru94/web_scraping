@@ -1,15 +1,12 @@
-#import counter,bs4,requests,pandas
-
+#import counter
 from collections import Counter
 from bs4 import BeautifulSoup
 import requests
 import pandas as pd
 
-first_game_num = 66342
-last_game_num = 66721
-
-x = 66705
-y = 66708
+#X= first game Y= last game
+x = 66342
+y = 66346
 final_list = []
 
 #Combine the two lists/This is for the end, but has to be place here
@@ -121,18 +118,20 @@ def final_results():
     final_dict = dict(sorted(d.items()))
     return final_dict
     
+
+
 #Write to txt file
 dict_final = final_results()
  
-file = open("DictFile.txt","w")
- 
+file = open("Premstats_21-22.txt","w")
+file.write('Minutes,No. of Goals\n') 
 for key, value in dict_final.items(): 
  
     file.write('%s,%s\n' % (key, value))
  
 file.close()
 
-#Convert txt to csv
-read_file = pd.read_csv (r'Path where the Text file is stored\File name.txt')
-read_file.to_csv (r'Path where the CSV will be saved\File name.csv', index=None)
 
+#Convert txt to csv
+read_file = pd.read_csv (r'C:\Users\Dimitris\Desktop\SQL\web-scraping\Premstats_21-22.txt')
+read_file.to_csv (r'C:\Users\Dimitris\Desktop\SQL\web-scraping\Premstats_21-22.csv', index=None)
