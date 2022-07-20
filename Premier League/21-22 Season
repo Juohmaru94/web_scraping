@@ -112,7 +112,7 @@ for game_number in range(x,y):
     final_list.extend(combine())
 
  
-#Finally, at the very very end Dictionary created to see no. of goals for each minute
+#Dictionary created to see no. of goals for each minute
 def final_results():
     d = Counter(final_list)
     #sort from 1min to 90min
