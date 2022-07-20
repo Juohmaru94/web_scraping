@@ -1,8 +1,9 @@
-#import counter,bs4,requests
+#import counter,bs4,requests,pandas
 
 from collections import Counter
 from bs4 import BeautifulSoup
 import requests
+import pandas as pd
 
 first_game_num = 66342
 last_game_num = 66721
@@ -120,6 +121,18 @@ def final_results():
     final_dict = dict(sorted(d.items()))
     return final_dict
     
+#Write to txt file
+dict_final = final_results()
+ 
+file = open("DictFile.txt","w")
+ 
+for key, value in dict_final.items(): 
+ 
+    file.write('%s:%s\n' % (key, value))
+ 
+file.close()
 
-print (final_results())
+#Convert txt to csv
+read_file = pd.read_csv (r'Path where the Text file is stored\File name.txt')
+read_file.to_csv (r'Path where the CSV will be saved\File name.csv', index=None)
 
