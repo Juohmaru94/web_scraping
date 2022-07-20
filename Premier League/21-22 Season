@@ -128,7 +128,7 @@ file = open("DictFile.txt","w")
  
 for key, value in dict_final.items(): 
  
-    file.write('%s:%s\n' % (key, value))
+    file.write('%s,%s\n' % (key, value))
  
 file.close()
 
