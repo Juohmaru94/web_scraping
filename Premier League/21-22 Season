@@ -10,7 +10,7 @@ x = 66342
 y = 66722
 final_list = []
 
-#Combine the two lists/This is for the end, but has to be place here
+#Combine the two lists/This is for the end, but has to be placed here
 def combine():
     combined_list = home_minutes + away_minutes
     return combined_list
