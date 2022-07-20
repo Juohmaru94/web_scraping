@@ -6,7 +6,7 @@ import pandas as pd
 
 #X= first game Y= last game
 x = 66342
-y = 66723
+y = 66345
 final_list = []
 
 #Combine the two lists/This is for the end, but has to be place here
@@ -122,16 +122,9 @@ def final_results():
 
 #Write to txt file
 dict_final = final_results()
- 
-file = open("Premstats_21-22.txt","w")
-file.write('Minutes,No. of Goals\n') 
-for key, value in dict_final.items(): 
- 
-    file.write('%s,%s\n' % (key, value))
- 
-file.close()
 
+#DataFrame
+x = pd.DataFrame(dict_final.items(), columns=['Minutes', 'No. of Goals'])
 
-#Convert txt to csv
-read_file = pd.read_csv (r'C:\Users\Dimitris\Desktop\SQL\web-scraping\Premstats_21-22.txt')
-read_file.to_csv (r'C:\Users\Dimitris\Desktop\SQL\web-scraping\Premstats_21-22.csv', index=None)
+#Export to CSV
+x.to_csv('PremierLeague_21-22.csv', index=False)
