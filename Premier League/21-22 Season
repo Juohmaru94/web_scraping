@@ -46,7 +46,7 @@ for game_number in range(x,y):
         for j in home_scorers:
             return (j.text.split())
     
-    
+    #Remove minutes that yellow/red cards were given (home)
     def remove_home_cards(home_card):
         home2 = [i for i in range(len(home_stats())) if home_stats()[i] =='Red' or home_stats()[i] =='Second']
         j=1
@@ -61,7 +61,7 @@ for game_number in range(x,y):
         for i in away_scorers:
             return(i.text.split())
         
-    
+    #Remove minutes that yellow/red cards were given (away)
     def remove_away_cards(away_card):
         away2 = [i for i in range(len(away_stats())) if away_stats()[i] =='Red' or away_stats()[i] =='Second']
         j=1
