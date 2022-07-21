@@ -73,24 +73,23 @@ for game_number in range(x,y):
     
            
     #Replace ' from the minute, to make it an int for home and away
-    #And check for cards
-    def check_cards_home():
+    def replace_home():
         new_list_home = [element.replace("'", "") for element in remove_home_cards(home_stats())]
         return new_list_home
         
     
-    def check_cards_away():
+    def replace_away():
         new_list_away = [element.replace("'", "") for element in remove_away_cards(away_stats())]
         return new_list_away
     
     #Replace the (,) because it collided when the same person scored twice or more
     def check_comas_home():    
-        home_comas = [x.replace(",","") for x in check_cards_home()]
+        home_comas = [x.replace(",","") for x in replace_home()]
         return home_comas
     
     
     def check_comas_away():    
-        away_comas = [x.replace(",","") for x in check_cards_away()]
+        away_comas = [x.replace(",","") for x in replace_away()]
         return away_comas
     
     
