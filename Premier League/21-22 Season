@@ -40,6 +40,7 @@ for game_number in range(x,y):
     '''
     home_scorers = soup.find('div', class_='matchEvents matchEventsContainer').find_all('div', class_='home')
     away_scorers = soup.find('div', class_='matchEvents matchEventsContainer').find_all('div', class_='away')
+    
     #Obtain a splited list of names and minutes of goals/cards
     def home_stats():
         for j in home_scorers:
@@ -124,10 +125,13 @@ def final_results():
 dict_final = final_results()
 
 #DataFrame
-x = pd.DataFrame(dict_final.items(), columns=['Minutes', 'No. of Goals'])
-print(x)
-Total = x['No. of Goals'].sum()
+df = pd.DataFrame(dict_final.items(), columns=['Minutes', 'No. of Goals'])
+
+'''
+#Sum of Goals, if needed
+Total = df['No. of Goals'].sum()
 print (f'Total goals: {Total}')
+'''
 
 #Export to CSV
-x.to_csv('PremierLeague_21-22.csv', index=False)
+df.to_csv('PremierLeague_21-22.csv', index=False)
