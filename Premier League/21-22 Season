@@ -6,8 +6,8 @@ import pandas as pd
 
 #X= first game Y= last game
 #66342 - 66722 
-x = 66342
-y = 66722
+x = 46970
+y = 46971
 final_list = []
 
 #Combine the two lists/This is for the end, but has to be placed here
@@ -46,24 +46,34 @@ for game_number in range(x,y):
         for j in home_scorers:
             return (j.text.split())
     
+    def away_stats():
+        for i in away_scorers:
+            return(i.text.split())
+    
+    #Replace ' from the minute, to make it an int for home and away
+    def replace_home():
+        new_list_home = [element.replace("'", "") for element in home_stats()]
+        return new_list_home
+        
+    
+    def replace_away():
+        new_list_away = [element.replace("'", "") for element in away_stats()]
+        return new_list_away
+    
     #Remove minutes that yellow/red cards were given (home)
     def remove_home_cards(home_card):
-        home2 = [i for i in range(len(home_stats())) if home_stats()[i] =='Red' or home_stats()[i] =='Second']
+        home2 = [i for i in range(len(replace_home())) if replace_home()[i] =='Red' or replace_home()[i] =='Second']
         j=1
         for x in home2:
             home_card.pop(x-j)
             home_card.pop(x-(j+1))
             j+=1
         return home_card
+     
     
-    
-    def away_stats():
-        for i in away_scorers:
-            return(i.text.split())
-        
     #Remove minutes that yellow/red cards were given (away)
     def remove_away_cards(away_card):
-        away2 = [i for i in range(len(away_stats())) if away_stats()[i] =='Red' or away_stats()[i] =='Second']
+        away2 = [i for i in range(len(replace_away()())) if replace_away()[i] =='Red' or replace_away()[i] =='Second']
         j=1
         for x in away2:
             away_card.pop(x-j)
@@ -71,16 +81,6 @@ for game_number in range(x,y):
             j+=1
         return away_card
     
-           
-    #Replace ' from the minute, to make it an int for home and away
-    def replace_home():
-        new_list_home = [element.replace("'", "") for element in remove_home_cards(home_stats())]
-        return new_list_home
-        
-    
-    def replace_away():
-        new_list_away = [element.replace("'", "") for element in remove_away_cards(away_stats())]
-        return new_list_away
     
     #Replace the (,) because it collided when the same person scored twice or more
     def check_comas_home():    
@@ -125,7 +125,7 @@ dict_final = final_results()
 
 #DataFrame
 df = pd.DataFrame(dict_final.items(), columns=['Minutes', 'No. of Goals'])
-
+#print(df)
 '''
 #Sum of Goals, if needed
 Total = df['No. of Goals'].sum()
@@ -133,4 +133,4 @@ print (f'Total goals: {Total}')
 '''
 
 #Export to CSV
-df.to_csv('PremierLeague_21-22.csv', index=False)
+#df.to_csv('PremierLeague_21-22.csv', index=False)
