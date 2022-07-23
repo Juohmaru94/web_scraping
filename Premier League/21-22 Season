@@ -116,15 +116,16 @@ for game_number in range(x,y):
 def final_results():
     d = Counter(final_list)
     #sort from 1min to 90min
+    d = {int(k):int(v) for k,v in d.items()}
     final_dict = dict(sorted(d.items()))
     return final_dict
     
 
-#Write to txt file
 dict_final = final_results()
 
 #DataFrame
 df = pd.DataFrame(dict_final.items(), columns=['Minutes', 'No. of Goals'])
+#print(df)
 
 '''
 #Sum of Goals, if needed
@@ -133,4 +134,4 @@ print (f'Total goals: {Total}')
 '''
 
 #Export to CSV
-df.to_csv('PremierLeague_21-22.csv', index=False)
+df.to_csv('PremierLeague_test.csv', index=False)
